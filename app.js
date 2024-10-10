@@ -22,8 +22,14 @@ mongoose.connect('mongodb://localhost:27017/calendar', { useNewUrlParser: true, 
 // Routes
 app.use('/api/events', eventRoutes);
 
+// Root route
+app.get('/', (req, res) => {
+    res.send('Welcome to the Calendar Application!');
+});
+
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
