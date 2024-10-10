@@ -1,25 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './Calendar.css'; // Optional for styling
 
 const Calendar = () => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
-            const response = await fetch('/api/events');
-            const data = await response.json();
-            setEvents(data);
+            try {
+                const response = await axios.get('/api/events');
+                setEvents(response.data);
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            }
         };
         fetchEvents();
     }, []);
 
-    // Add your calendar rendering logic here
-
     return (
-        <div>
-            <h1>Calendar</h1>
-            {/* Render your calendar with events */}
+        <div className="calendar-container">
+            <h1>Calendar Events</h1>
+            <ul>
+                {events.map((event) => (
+                    <li key={event._id}>
+                        <h2>{event.title}</h2>
+                        <p>{new Date(event.date).toLocaleDateString()}</p>
+                        <p>{event.description}</p>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
 
 export default Calendar;
+
