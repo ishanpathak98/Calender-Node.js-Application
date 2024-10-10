@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const eventRoutes = require('./routes/eventRoutes');
-const db = require('./config/db'); // Import DB config
+const path = require('path'); // Make sure to include this
+const eventRoutes = require('./routes/eventRoutes'); // Only declare this once
 
 const app = express();
 
@@ -11,9 +11,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Database Connection
-mongoose.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/calendar', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log('DB Connection Error:', err));
+
+// Set view engine and views directory
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs'); // or 'pug'
 
 // Routes
 app.use('/api/events', eventRoutes);
@@ -23,3 +27,4 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
