@@ -5,6 +5,11 @@ const eventRoutes = require('./routes/eventRoutes');
 const app = express();
 const eventRoutes = require('./routes/eventRoutes');
 app.use('/api/events', eventRoutes);
+const connectDB = require('./config/db');
+
+// Database Connection
+connectDB();
+
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
