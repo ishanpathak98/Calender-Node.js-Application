@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const eventRoutes = require('./routes/eventRoutes');
 const app = express();
-
+const eventRoutes = require('./routes/eventRoutes');
+app.use('/api/events', eventRoutes);
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
